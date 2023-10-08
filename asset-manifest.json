@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/chatter/static/css/main.95f6df55.css",
+    "main.js": "/chatter/static/js/main.0abc4c9a.js",
+    "index.html": "/chatter/index.html",
+    "main.95f6df55.css.map": "/chatter/static/css/main.95f6df55.css.map",
+    "main.0abc4c9a.js.map": "/chatter/static/js/main.0abc4c9a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.95f6df55.css",
+    "static/js/main.0abc4c9a.js"
+  ]
+}
