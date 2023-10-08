@@ -3,10 +3,12 @@ import Header from './Components/Header';
 import React from "react";
 import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { url } from './Constants';
 import MessageItem from './Components/MessageItem';
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowUpOutlined, ArrowDownOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+
+const { confirm } = Modal;
 
 function App() {
 
@@ -15,6 +17,7 @@ function App() {
   const [sortedData, setSortedData] = React.useState([]);
   const [sorterType, setSorterType] = React.useState("desc");
   const [selectedMessageIds, setSelectedMessageIds] = React.useState([]);
+  const [openWarningModal, setOpenWarningModal] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -99,6 +102,7 @@ function App() {
     }
 
     fetchData();
+    setSelectedMessageIds([]);
   };
 
   // Sorting function
@@ -161,7 +165,26 @@ function App() {
     }
 
     fetchData();
+    setSelectedMessageIds([]);
   }
+
+  const handleDeleteSelectedMessages = () => {
+    confirm({
+      title: 'Are you sure you want to delete the selected messages ?',
+      icon: <ExclamationCircleFilled />,
+      // content: 'Some descriptions',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk() {
+        deleteSelectedMessages()
+        setOpenWarningModal(false);
+      },
+      onCancel() {
+        setOpenWarningModal(false);
+      },
+    });
+  };
 
   console.log("selectedMessageIds", selectedMessageIds)
 
@@ -189,7 +212,9 @@ function App() {
           Sort by Time 
           {sorterType==="asc" ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
         </Button>
-        <Button onClick={deleteSelectedMessages}>
+        <Button 
+          onClick={handleDeleteSelectedMessages} 
+        >
           Delete 
         </Button>
       </div>
