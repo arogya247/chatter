@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
+import { url } from './Constants';
 
 function App() {
 
@@ -14,6 +15,25 @@ function App() {
   };
 
   const postMessage = () => {
+
+    const options = {
+      method: "POST",
+      url: url,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "E-mnlPDzSuz7UAbo"
+      },
+      data: { text: text }
+    };
+
+    axios(options)
+    .then((response) => {
+      //console.log("res", response)
+      if (response.status === 201) {
+        setText("");
+      }
+    });
 
   }
 

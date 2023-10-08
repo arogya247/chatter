@@ -1,0 +1,1 @@
+export let url = "https://mapi.harmoney.dev/api/v1/messages/"
