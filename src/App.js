@@ -9,9 +9,32 @@ import { url } from './Constants';
 function App() {
 
   const [text, setText] = React.useState("");
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleInputChange = (e) => {
     setText(e.target.value);
+  };
+
+  const fetchData = () => {
+    
+    const options = {
+      method: "GET",
+      url: url,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: "E-mnlPDzSuz7UAbo"
+      }
+    };
+
+    axios(options).then((response) => {
+      //console.log("data", response.data)
+      setData(response.data);
+    });
   };
 
   const postMessage = () => {
@@ -32,6 +55,7 @@ function App() {
       //console.log("res", response)
       if (response.status === 201) {
         setText("");
+        fetchData();
       }
     });
 
