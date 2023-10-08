@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <div className='header'>
 			<h1>Harmoney - Chatter</h1>
-      <h4>Type something in the box below, then hit "POST"</h4>
+      <h4>Type something in the box below, then hit "POST" or press "ENTER"</h4>
     </div>
   )
 }

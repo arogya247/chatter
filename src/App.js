@@ -186,8 +186,6 @@ function App() {
     });
   };
 
-  console.log("selectedMessageIds", selectedMessageIds)
-
   return (
     <div className="App">
       <Header />
@@ -197,6 +195,7 @@ function App() {
           rows={2}
           value={text}
           onChange={handleInputChange}
+          onPressEnter={postMessage}
           //onBlur={(e) => setText(e.target.value)}
         />
         <Button disabled={text===""} type="primary" onClick={postMessage}>
