@@ -1,7 +1,6 @@
 import moment from "moment";
 import { Button } from "antd";
-import { MessageTwoTone } from "@ant-design/icons";
-import { url } from "../Constants";
+import { url, authorization_token } from "../Constants";
 import axios from "axios";
 import { Checkbox } from 'antd';
 import './MessageItem.css'
@@ -17,7 +16,7 @@ const MessageItem = ({item, fetchData, handleMessageSelection}) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "E-mnlPDzSuz7UAbo"
+        Authorization: authorization_token
       }
     };
 

@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
 import { Button, Modal, Input, Empty } from 'antd';
-import { url } from './Constants';
+import { url, authorization_token } from './Constants';
 import MessageItem from './Components/MessageItem';
 import { ArrowUpOutlined, ArrowDownOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 
@@ -19,11 +19,12 @@ function App() {
   const [selectedMessageIds, setSelectedMessageIds] = React.useState([]);
   const [openWarningModal, setOpenWarningModal] = React.useState(false);
 
-
   React.useEffect(() => {
     fetchData();
   }, []);
 
+  // handle data sorting whenever new message is added 
+  // or sorting button is clicked thereby changing type of sorter
   React.useEffect(() => {
 
     const newData = JSON.parse(JSON.stringify(data)).sort(sortByTimestamp)
@@ -35,6 +36,7 @@ function App() {
     setText(e.target.value);
   };
 
+  // function to make the api call to list all messages
   const fetchData = () => {
     
     const options = {
@@ -43,7 +45,7 @@ function App() {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "E-mnlPDzSuz7UAbo"
+        Authorization: authorization_token
       }
     };
 
@@ -61,7 +63,7 @@ function App() {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "E-mnlPDzSuz7UAbo"
+        Authorization: authorization_token
       },
       data: { text: text }
     };
@@ -77,6 +79,7 @@ function App() {
 
   }
 
+  // function to delete all messages
   const deleteAll = async () => {
     const idsToDelete = data.map((item) => item.id);
 
@@ -87,7 +90,7 @@ function App() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json;charset=UTF-8",
-          Authorization: "E-mnlPDzSuz7UAbo"
+          Authorization: authorization_token
         }
       };
 
@@ -128,6 +131,7 @@ function App() {
     }
   }
 
+  // keeps track of selected message ids based on checkbox selection
   const handleMessageSelection = (id, checked) => {
     let arr = selectedMessageIds;
     if(checked == true){
@@ -150,7 +154,7 @@ function App() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json;charset=UTF-8",
-          Authorization: "E-mnlPDzSuz7UAbo"
+          Authorization: authorization_token
         }
       };
 
