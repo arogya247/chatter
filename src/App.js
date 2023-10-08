@@ -6,15 +6,25 @@ import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
 import { url } from './Constants';
 import MessageItem from './Components/MessageItem';
+import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 
 function App() {
 
   const [text, setText] = React.useState("");
   const [data, setData] = React.useState([]);
+  const [sortedData, setSortedData] = React.useState([]);
+  const [sorterType, setSorterType] = React.useState("desc");
 
   React.useEffect(() => {
     fetchData();
   }, []);
+
+  React.useEffect(() => {
+
+    const newData = JSON.parse(JSON.stringify(data)).sort(sortByTimestamp)
+    setSortedData(newData)
+
+  }, [data, sorterType]);
 
   const handleInputChange = (e) => {
     setText(e.target.value);
@@ -66,6 +76,29 @@ function App() {
 
   }
 
+  // Sorting function
+  const sortByTimestamp = (a, b) => {
+    const dateA = new Date(a.timestamp);
+    const dateB = new Date(b.timestamp);
+
+    if(sorterType === "asc"){
+      return dateA - dateB;
+    }
+    else{
+      return dateB - dateA;
+    }
+    
+  };
+
+  const handleSortByTimestamp = () => {
+    if(sorterType === "asc"){
+      setSorterType("desc")
+    }
+    else{
+      setSorterType("asc")
+    }
+  }
+
   return (
     <div className="App">
       <Header />
@@ -86,7 +119,14 @@ function App() {
       </div>
 
       <div>
-        {data.map((item) => {
+        <Button type="primary" onClick={handleSortByTimestamp}>
+          Sort by Time 
+          {sorterType==="asc" ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
+        </Button>
+      </div>
+      
+      <div>
+        {sortedData.map((item) => {
           return (
             <MessageItem fetchData={fetchData} item={item} key={item.id} />
           );
