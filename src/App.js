@@ -14,6 +14,8 @@ function App() {
   const [data, setData] = React.useState([]);
   const [sortedData, setSortedData] = React.useState([]);
   const [sorterType, setSorterType] = React.useState("desc");
+  const [selectedMessageIds, setSelectedMessageIds] = React.useState([]);
+
 
   React.useEffect(() => {
     fetchData();
@@ -72,9 +74,32 @@ function App() {
 
   }
 
-  const deleteAll = () => {
+  const deleteAll = async () => {
+    const idsToDelete = data.map((item) => item.id);
 
-  }
+    for (const id of idsToDelete) {
+      const options = {
+        method: "DELETE",
+        url: `${url}${id}/`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: "E-mnlPDzSuz7UAbo"
+        }
+      };
+
+      try {
+        const response = await axios(options);
+        // Handle the response if needed
+        //console.log(`Deleted message with id ${id}:`, response.data);
+      } catch (error) {
+        // Handle errors if the DELETE request fails
+        //console.error(`Error deleting message with id ${id}:`, error.message);
+      }
+    }
+
+    fetchData();
+  };
 
   // Sorting function
   const sortByTimestamp = (a, b) => {
@@ -98,6 +123,47 @@ function App() {
       setSorterType("asc")
     }
   }
+
+  const handleMessageSelection = (id, checked) => {
+    let arr = selectedMessageIds;
+    if(checked == true){
+      arr.push(id);
+    }
+    else if(checked == false){
+      arr = arr.filter(item => item !== id)
+    }
+    
+    setSelectedMessageIds(arr);
+  }
+
+  const deleteSelectedMessages = async () => {
+    const idsToDelete = selectedMessageIds;
+
+    for (const id of idsToDelete) {
+      const options = {
+        method: "DELETE",
+        url: `${url}${id}/`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: "E-mnlPDzSuz7UAbo"
+        }
+      };
+
+      try {
+        const response = await axios(options);
+        // Handle the response if needed
+        //console.log(`Deleted message with id ${id}:`, response.data);
+      } catch (error) {
+        // Handle errors if the DELETE request fails
+        //console.error(`Error deleting message with id ${id}:`, error.message);
+      }
+    }
+
+    fetchData();
+  }
+
+  console.log("selectedMessageIds", selectedMessageIds)
 
   return (
     <div className="App">
@@ -123,12 +189,20 @@ function App() {
           Sort by Time 
           {sorterType==="asc" ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
         </Button>
+        <Button onClick={deleteSelectedMessages}>
+          Delete 
+        </Button>
       </div>
       
       <div>
         {sortedData.map((item) => {
           return (
-            <MessageItem fetchData={fetchData} item={item} key={item.id} />
+            <MessageItem 
+              handleMessageSelection={handleMessageSelection} 
+              fetchData={fetchData} 
+              item={item} 
+              key={item.id} 
+            />
           );
         })}
       </div>
