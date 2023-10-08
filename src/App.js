@@ -3,7 +3,7 @@ import Header from './Components/Header';
 import React from "react";
 import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
-import { Button, Modal, Input } from 'antd';
+import { Button, Modal, Input, Empty } from 'antd';
 import { url } from './Constants';
 import MessageItem from './Components/MessageItem';
 import { ArrowUpOutlined, ArrowDownOutlined, ExclamationCircleFilled } from "@ant-design/icons";
@@ -220,7 +220,9 @@ function App() {
       </div>
       
       <div>
-        {sortedData.map((item) => {
+        {sortedData.length > 0
+        ?
+        sortedData.map((item) => {
           return (
             <MessageItem 
               handleMessageSelection={handleMessageSelection} 
@@ -229,7 +231,12 @@ function App() {
               key={item.id} 
             />
           );
-        })}
+        })
+        :
+        <Empty 
+          description={"No messages"}
+        /> 
+        }
       </div>
 
     </div>
