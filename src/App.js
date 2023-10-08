@@ -5,6 +5,7 @@ import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
 import { url } from './Constants';
+import MessageItem from './Components/MessageItem';
 
 function App() {
 
@@ -83,6 +84,15 @@ function App() {
           Delete All
         </Button>
       </div>
+
+      <div>
+        {data.map((item) => {
+          return (
+            <MessageItem fetchData={fetchData} item={item} key={item.id} />
+          );
+        })}
+      </div>
+
     </div>
   );
 }
