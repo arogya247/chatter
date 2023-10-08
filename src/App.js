@@ -3,7 +3,7 @@ import Header from './Components/Header';
 import React from "react";
 import axios from "axios";
 import TextArea from 'antd/es/input/TextArea';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Input } from 'antd';
 import { url } from './Constants';
 import MessageItem from './Components/MessageItem';
 import { ArrowUpOutlined, ArrowDownOutlined, ExclamationCircleFilled } from "@ant-design/icons";
@@ -191,8 +191,8 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-        <TextArea
+      <div className='text_area'>
+        <Input
           allowClear
           rows={2}
           value={text}
@@ -207,15 +207,16 @@ function App() {
         </Button>
       </div>
 
-      <div>
+      <div className='upper-buttons'>
         <Button type="primary" onClick={handleSortByTimestamp}>
           Sort by Time 
           {sorterType==="asc" ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
         </Button>
         <Button 
           onClick={handleDeleteSelectedMessages} 
+          danger
         >
-          Delete 
+          Delete Selected
         </Button>
       </div>
       

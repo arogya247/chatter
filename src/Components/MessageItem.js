@@ -4,6 +4,7 @@ import { MessageTwoTone } from "@ant-design/icons";
 import { url } from "../Constants";
 import axios from "axios";
 import { Checkbox } from 'antd';
+import './MessageItem.css'
 
 
 const MessageItem = ({item, fetchData, handleMessageSelection}) => {
@@ -34,11 +35,11 @@ const MessageItem = ({item, fetchData, handleMessageSelection}) => {
 	}
 
   return (
-    <div>
-        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+    <div className="message-item">
+        <div className="title-row">
 					<Checkbox onChange={onCheckboxChange} />
-					<MessageTwoTone />
-					<h5>{item.source}</h5>
+					{/* <MessageTwoTone /> */}
+					<h5> ~ {item.source}</h5>
 					<p> - {moment(item.timestamp).format("MMMM D, YYYY [at] h:mm:ss A")}</p>
 					<Button
 						onClick={() => deleteMessage(item.id)}
